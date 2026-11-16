@@ -1,0 +1,70 @@
+@startuml image19
+title Biểu đồ gói hệ thống (Package Diagram - Cinema Management System)
+
+skinparam packageStyle folder
+skinparam shadowing false
+skinparam roundcorner 5
+skinparam classAttributeIconSize 0
+
+skinparam package {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    FontColor #0D6EFD
+    FontSize 13
+    FontStyle bold
+}
+
+skinparam class {
+    BackgroundColor #FFFFFF
+    BorderColor #495057
+    HeaderBackgroundColor #E9ECEF
+    FontSize 11
+}
+
+skinparam arrow {
+    Color #212529
+    FontColor #212529
+    FontSize 11
+}
+
+' ====================================================================
+' 1. GÓI GIAO DIỆN (VIEW PACKAGE)
+' ====================================================================
+package "view" {
+    package "view.user" {
+    }
+
+    package "view.customer" {
+
+    }
+
+    package "view.manager" {
+
+    }
+
+    package "view.saler" {
+
+    }
+}
+
+' ====================================================================
+' 2. GÓI TRUY CẬP DỮ LIỆU (DAO PACKAGE)
+' ====================================================================
+package "dao" {
+
+}
+
+' ====================================================================
+' 3. GÓI THỰC THỂ (MODEL PACKAGE)
+' ====================================================================
+package "model" {
+}
+
+' ====================================================================
+' 4. QUAN HỆ PHỤ THUỘC GIỮA CÁC GÓI (PACKAGE DEPENDENCIES)
+' ====================================================================
+view -- dao 
+ 
+dao -- model
+
+@enduml

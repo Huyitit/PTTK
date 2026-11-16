@@ -1,0 +1,38 @@
+@startuml image3
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+left to right direction
+
+skinparam usecase {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    ArrowColor #212529
+}
+
+actor "User 3\n(Người dùng)" as User
+actor "Staff 3\n(Nhân viên)" as Staff
+actor "Manager 3\n(Nhân viên quản lý)" as Manager
+
+' Kế thừa Actor
+Staff -up-|> User
+Manager -up-|> Staff
+
+rectangle "Cinema" as System {
+    usecase "Login 3" as UC_Login
+    usecase "View Statistics 3" as UC_ViewStats
+    usecase "View Customer Statistics 3" as UC_ViewCustStats
+    usecase "View Customer Transactions 3" as UC_ViewCustTrans
+}
+
+' Quan hệ Kế thừa Use Case
+UC_ViewCustStats -up-|> UC_ViewStats
+
+' Quan hệ Include & Extend
+UC_ViewCustStats ..> UC_Login : <<include>>
+UC_ViewCustTrans ..> UC_ViewCustStats : <<extend>>
+
+' Quan hệ Association nét liền
+User -- UC_Login
+Manager -- UC_ViewCustStats
+
+@enduml

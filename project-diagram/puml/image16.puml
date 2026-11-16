@@ -1,0 +1,104 @@
+@startuml image16
+title Biểu đồ tuần tự v3 module tìm kiếm thông tin phim (Sequence Diagram v3 - Search Movie Info)
+
+/'autonumber false'/
+skinparam shadowing false
+skinparam roundcorner 5
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+
+skinparam sequence {
+    ArrowColor #212529
+    ArrowThickness 1.5
+    ActorBorderColor #0D47A1
+    ActorBackgroundColor #E3F2FD
+    ParticipantBorderColor #0D47A1
+    ParticipantBackgroundColor #F8F9FA
+    LifeLineBorderColor #0D47A1
+    LifeLineBackgroundColor #BBDEFB
+}
+
+actor "Khách hàng" as cus
+boundary "CustomerScreen.jsp" as cs
+boundary "SearchMovieScreen.jsp" as sms
+boundary "MovieDetailScreen.jsp" as mds
+control "MovieDAO3" as dao
+entity "Movie3" as m
+entity "MovieGenre3" as mg
+entity "MovieActor3" as ma
+
+== Giai đoạn 1: Tìm kiếm danh sách phim theo từ khóa ==
+
+cus -> cs: 1: Chọn chức năng "Tìm kiếm phim"
+activate cs
+
+cs -> sms: 2: gọi trang
+activate sms
+
+sms --> cus: 3: hiển thị giao diện tìm kiếm (ô keyword, nút Tìm kiếm)
+
+cus -> sms: 4: nhập từ khóa tên phim (ví dụ: "Avatar") và click nút "Tìm kiếm"
+
+sms -> dao: 5: yêu cầu tìm kiếm phim theo từ khóa
+activate dao
+
+dao -> dao: 6: getMovies(name: String)
+
+dao -> m: 7: gọi đóng gói thông tin thực thể phim
+activate m
+
+m -> m: 8: Movie3() [đóng gói]
+
+m --> dao: 9: trả kết quả đối tượng Movie3 đã đóng gói
+deactivate m
+
+dao --> sms: 10: trả kết quả danh sách mảng đối tượng Movie3[]
+deactivate dao
+
+sms --> cus: 11: hiển thị bảng danh sách các phim tìm được
+
+== Giai đoạn 2: Xem chi tiết thông tin bộ phim được chọn ==
+
+cus -> sms: 12: click chọn tên / nút xem của một bộ phim cụ thể
+
+sms -> mds: 13: gọi trang (truyền đối tượng phim đã chọn)
+activate mds
+
+mds -> dao: 14: yêu cầu lấy thông tin chi tiết đầy đủ của bộ phim
+activate dao
+
+dao -> dao: 15: getMovieDetail(movie: Movie3)
+
+dao -> m: 16: gọi đóng gói thông tin chi tiết phim
+activate m
+
+m -> m: 17: Movie3() [đóng gói thông tin chung]
+
+m -> mg: 18: gọi đóng gói danh sách thể loại của bộ phim
+activate mg
+
+mg -> mg: 19: MovieGenre3() [đóng gói]
+
+mg --> m: 20: trả kết quả danh sách thể loại
+deactivate mg
+
+m -> ma: 21: gọi đóng gói danh sách diễn viên tham gia bộ phim
+activate ma
+
+ma -> ma: 22: MovieActor3() [đóng gói]
+
+ma --> m: 23: trả kết quả danh sách diễn viên
+deactivate ma
+
+m --> dao: 24: trả về đối tượng Movie3 hoàn chỉnh (chứa chi tiết, thể loại, diễn viên)
+deactivate m
+
+dao --> mds: 25: trả kết quả đối tượng Movie3
+deactivate dao
+
+mds --> cus: 26: hiển thị bảng thông tin chi tiết toàn diện của bộ phim
+deactivate mds
+deactivate sms
+deactivate cs
+
+@enduml

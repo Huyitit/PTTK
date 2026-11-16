@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmi:XMI xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:version="2.1">
+  <uml:Model xmi:type="uml:Model" xmi:id="model_CinemaManagementSystem" name="Cinema">
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_User" name="User 3"/>
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_Customer" name="Customer 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_actor_Customer_actor_User" general="actor_User"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_Staff" name="Staff 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_actor_Staff_actor_User" general="actor_User"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_Saler" name="Saler 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_actor_Saler_actor_Staff" general="actor_Staff"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_Manager" name="Manager 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_actor_Manager_actor_Staff" general="actor_Staff"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_Login" name="Login 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_Logout" name="Logout 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_UpdateProfile" name="Update Profile 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_RegMember" name="Register Membership 3" isAbstract="true"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_RegMemberOnline" name="Register Membership Online 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_RegMemberOnline_uc_RegMember" general="uc_RegMember"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_IssueMemberCounter" name="Issue Membership At Counter 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_IssueMemberCounter_uc_RegMember" general="uc_RegMember"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_SearchMovie" name="Search Movie 3" isAbstract="true"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_SearchMovieCust" name="Search Movie For Customer 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_SearchMovieCust_uc_SearchMovie" general="uc_SearchMovie"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_SearchMovieSaler" name="Search Movie For Saler 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_SearchMovieSaler_uc_SearchMovie" general="uc_SearchMovie"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ViewMovieDetail" name="View Movie Detail 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ViewShowtimes" name="View Showtimes 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_BookTicket" name="Book Ticket 3" isAbstract="true"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_BookTicketOnline" name="Book Ticket Online 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_BookTicketOnline_uc_BookTicket" general="uc_BookTicket"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_SellTicketCounter" name="Sell Ticket At Counter 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_SellTicketCounter_uc_BookTicket" general="uc_BookTicket"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ManageRooms" name="Manage Screening Rooms 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ManageMovies" name="Manage Movies 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ScheduleShowtimes" name="Schedule Showtimes 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ViewStats" name="View Statistics 3"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_1_actor_User_uc_Login" name="">
+      <memberEnd xmi:idref="end_assoc_1_actor_User_uc_Login_actor"/>
+      <memberEnd xmi:idref="end_assoc_1_actor_User_uc_Login_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_1_actor_User_uc_Login_actor" type="actor_User" association="assoc_1_actor_User_uc_Login"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_1_actor_User_uc_Login_uc" type="uc_Login" association="assoc_1_actor_User_uc_Login"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_2_actor_User_uc_Logout" name="">
+      <memberEnd xmi:idref="end_assoc_2_actor_User_uc_Logout_actor"/>
+      <memberEnd xmi:idref="end_assoc_2_actor_User_uc_Logout_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_2_actor_User_uc_Logout_actor" type="actor_User" association="assoc_2_actor_User_uc_Logout"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_2_actor_User_uc_Logout_uc" type="uc_Logout" association="assoc_2_actor_User_uc_Logout"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_3_actor_User_uc_UpdateProfile" name="">
+      <memberEnd xmi:idref="end_assoc_3_actor_User_uc_UpdateProfile_actor"/>
+      <memberEnd xmi:idref="end_assoc_3_actor_User_uc_UpdateProfile_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_3_actor_User_uc_UpdateProfile_actor" type="actor_User" association="assoc_3_actor_User_uc_UpdateProfile"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_3_actor_User_uc_UpdateProfile_uc" type="uc_UpdateProfile" association="assoc_3_actor_User_uc_UpdateProfile"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_4_actor_Customer_uc_RegMemberOnline" name="">
+      <memberEnd xmi:idref="end_assoc_4_actor_Customer_uc_RegMemberOnline_actor"/>
+      <memberEnd xmi:idref="end_assoc_4_actor_Customer_uc_RegMemberOnline_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_4_actor_Customer_uc_RegMemberOnline_actor" type="actor_Customer" association="assoc_4_actor_Customer_uc_RegMemberOnline"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_4_actor_Customer_uc_RegMemberOnline_uc" type="uc_RegMemberOnline" association="assoc_4_actor_Customer_uc_RegMemberOnline"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_5_actor_Customer_uc_SearchMovieCust" name="">
+      <memberEnd xmi:idref="end_assoc_5_actor_Customer_uc_SearchMovieCust_actor"/>
+      <memberEnd xmi:idref="end_assoc_5_actor_Customer_uc_SearchMovieCust_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_5_actor_Customer_uc_SearchMovieCust_actor" type="actor_Customer" association="assoc_5_actor_Customer_uc_SearchMovieCust"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_5_actor_Customer_uc_SearchMovieCust_uc" type="uc_SearchMovieCust" association="assoc_5_actor_Customer_uc_SearchMovieCust"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_6_actor_Customer_uc_ViewMovieDetail" name="">
+      <memberEnd xmi:idref="end_assoc_6_actor_Customer_uc_ViewMovieDetail_actor"/>
+      <memberEnd xmi:idref="end_assoc_6_actor_Customer_uc_ViewMovieDetail_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_6_actor_Customer_uc_ViewMovieDetail_actor" type="actor_Customer" association="assoc_6_actor_Customer_uc_ViewMovieDetail"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_6_actor_Customer_uc_ViewMovieDetail_uc" type="uc_ViewMovieDetail" association="assoc_6_actor_Customer_uc_ViewMovieDetail"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_7_actor_Customer_uc_ViewShowtimes" name="">
+      <memberEnd xmi:idref="end_assoc_7_actor_Customer_uc_ViewShowtimes_actor"/>
+      <memberEnd xmi:idref="end_assoc_7_actor_Customer_uc_ViewShowtimes_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_7_actor_Customer_uc_ViewShowtimes_actor" type="actor_Customer" association="assoc_7_actor_Customer_uc_ViewShowtimes"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_7_actor_Customer_uc_ViewShowtimes_uc" type="uc_ViewShowtimes" association="assoc_7_actor_Customer_uc_ViewShowtimes"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_8_actor_Customer_uc_BookTicketOnline" name="">
+      <memberEnd xmi:idref="end_assoc_8_actor_Customer_uc_BookTicketOnline_actor"/>
+      <memberEnd xmi:idref="end_assoc_8_actor_Customer_uc_BookTicketOnline_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_8_actor_Customer_uc_BookTicketOnline_actor" type="actor_Customer" association="assoc_8_actor_Customer_uc_BookTicketOnline"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_8_actor_Customer_uc_BookTicketOnline_uc" type="uc_BookTicketOnline" association="assoc_8_actor_Customer_uc_BookTicketOnline"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_9_actor_Customer_uc_SellTicketCounter" name="">
+      <memberEnd xmi:idref="end_assoc_9_actor_Customer_uc_SellTicketCounter_actor"/>
+      <memberEnd xmi:idref="end_assoc_9_actor_Customer_uc_SellTicketCounter_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_9_actor_Customer_uc_SellTicketCounter_actor" type="actor_Customer" association="assoc_9_actor_Customer_uc_SellTicketCounter"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_9_actor_Customer_uc_SellTicketCounter_uc" type="uc_SellTicketCounter" association="assoc_9_actor_Customer_uc_SellTicketCounter"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_10_actor_Customer_uc_IssueMemberCounter" name="">
+      <memberEnd xmi:idref="end_assoc_10_actor_Customer_uc_IssueMemberCounter_actor"/>
+      <memberEnd xmi:idref="end_assoc_10_actor_Customer_uc_IssueMemberCounter_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_10_actor_Customer_uc_IssueMemberCounter_actor" type="actor_Customer" association="assoc_10_actor_Customer_uc_IssueMemberCounter"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_10_actor_Customer_uc_IssueMemberCounter_uc" type="uc_IssueMemberCounter" association="assoc_10_actor_Customer_uc_IssueMemberCounter"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_11_actor_Saler_uc_SearchMovieSaler" name="">
+      <memberEnd xmi:idref="end_assoc_11_actor_Saler_uc_SearchMovieSaler_actor"/>
+      <memberEnd xmi:idref="end_assoc_11_actor_Saler_uc_SearchMovieSaler_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_11_actor_Saler_uc_SearchMovieSaler_actor" type="actor_Saler" association="assoc_11_actor_Saler_uc_SearchMovieSaler"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_11_actor_Saler_uc_SearchMovieSaler_uc" type="uc_SearchMovieSaler" association="assoc_11_actor_Saler_uc_SearchMovieSaler"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_12_actor_Saler_uc_SellTicketCounter" name="">
+      <memberEnd xmi:idref="end_assoc_12_actor_Saler_uc_SellTicketCounter_actor"/>
+      <memberEnd xmi:idref="end_assoc_12_actor_Saler_uc_SellTicketCounter_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_12_actor_Saler_uc_SellTicketCounter_actor" type="actor_Saler" association="assoc_12_actor_Saler_uc_SellTicketCounter"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_12_actor_Saler_uc_SellTicketCounter_uc" type="uc_SellTicketCounter" association="assoc_12_actor_Saler_uc_SellTicketCounter"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_13_actor_Saler_uc_IssueMemberCounter" name="">
+      <memberEnd xmi:idref="end_assoc_13_actor_Saler_uc_IssueMemberCounter_actor"/>
+      <memberEnd xmi:idref="end_assoc_13_actor_Saler_uc_IssueMemberCounter_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_13_actor_Saler_uc_IssueMemberCounter_actor" type="actor_Saler" association="assoc_13_actor_Saler_uc_IssueMemberCounter"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_13_actor_Saler_uc_IssueMemberCounter_uc" type="uc_IssueMemberCounter" association="assoc_13_actor_Saler_uc_IssueMemberCounter"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_14_actor_Manager_uc_ManageRooms" name="">
+      <memberEnd xmi:idref="end_assoc_14_actor_Manager_uc_ManageRooms_actor"/>
+      <memberEnd xmi:idref="end_assoc_14_actor_Manager_uc_ManageRooms_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_14_actor_Manager_uc_ManageRooms_actor" type="actor_Manager" association="assoc_14_actor_Manager_uc_ManageRooms"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_14_actor_Manager_uc_ManageRooms_uc" type="uc_ManageRooms" association="assoc_14_actor_Manager_uc_ManageRooms"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_15_actor_Manager_uc_ManageMovies" name="">
+      <memberEnd xmi:idref="end_assoc_15_actor_Manager_uc_ManageMovies_actor"/>
+      <memberEnd xmi:idref="end_assoc_15_actor_Manager_uc_ManageMovies_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_15_actor_Manager_uc_ManageMovies_actor" type="actor_Manager" association="assoc_15_actor_Manager_uc_ManageMovies"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_15_actor_Manager_uc_ManageMovies_uc" type="uc_ManageMovies" association="assoc_15_actor_Manager_uc_ManageMovies"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_16_actor_Manager_uc_ScheduleShowtimes" name="">
+      <memberEnd xmi:idref="end_assoc_16_actor_Manager_uc_ScheduleShowtimes_actor"/>
+      <memberEnd xmi:idref="end_assoc_16_actor_Manager_uc_ScheduleShowtimes_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_16_actor_Manager_uc_ScheduleShowtimes_actor" type="actor_Manager" association="assoc_16_actor_Manager_uc_ScheduleShowtimes"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_16_actor_Manager_uc_ScheduleShowtimes_uc" type="uc_ScheduleShowtimes" association="assoc_16_actor_Manager_uc_ScheduleShowtimes"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_17_actor_Manager_uc_ViewStats" name="">
+      <memberEnd xmi:idref="end_assoc_17_actor_Manager_uc_ViewStats_actor"/>
+      <memberEnd xmi:idref="end_assoc_17_actor_Manager_uc_ViewStats_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_17_actor_Manager_uc_ViewStats_actor" type="actor_Manager" association="assoc_17_actor_Manager_uc_ViewStats"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_17_actor_Manager_uc_ViewStats_uc" type="uc_ViewStats" association="assoc_17_actor_Manager_uc_ViewStats"/>
+    </packagedElement>
+  </uml:Model>
+</xmi:XMI>

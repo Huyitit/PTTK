@@ -1,0 +1,25 @@
+@startuml image7
+title Biểu đồ trạng thái module tìm kiếm thông tin phim (State Machine Diagram - Search Movie Info)
+
+skinparam state {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    ArrowColor #212529
+    StartColor #0D6EFD
+    EndColor #0D6EFD
+}
+
+[*] --> S1 : Start
+
+state "Display customer\nmain screen" as S1
+state "Display movie\nsearching\nscreen" as S2
+state "Display movie\nlist (Update in\nsearching Screen)" as S3
+state "Display\nmovie's detail\nscreen" as S4
+
+S1 --> S2 : Select Search Movie Feature
+S2 --> S3 : Insert keyword and select Search button
+S3 --> S4 : Select a movie
+S4 --> S3 : Click Back
+S4 --> [*] : Click Close
+
+@enduml

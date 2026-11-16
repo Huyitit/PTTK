@@ -1,0 +1,69 @@
+# ====================================================================
+# Docker Compose cho Cinema Management System (Subject No. 17)
+# Khởi chạy đa dịch vụ: Ứng dụng Web Tomcat 9 + CSDL MySQL 8.0
+# ====================================================================
+
+services:
+
+  # ------------------------------------------------------------------
+  # DỊCH VỤ CSDL: MySQL 8.0 (cinema_db3)
+  # ------------------------------------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: cinema_mysql
+    restart: unless-stopped
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cinema_db3
+    ports:
+      # Map cổng 5000 trên máy Host vào cổng 3306 bên trong container MySQL (tránh xung đột port 3306 trên host)
+      - "5000:3306"
+    volumes:
+      # Tự động nạp CSDL theo đúng thứ tự chữ cái (01 -> 02 -> 03) khi khởi tạo lần đầu
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./sql/procedures.sql:/docker-entrypoint-initdb.d/02_procedures.sql:ro
+      - ./sql/sample_data.sql:/docker-entrypoint-initdb.d/03_sample_data.sql:ro
+      - cinema_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -P 3306 -u root -proot && mysql -h 127.0.0.1 -P 3306 -u root -proot -e 'SELECT 1 FROM cinema_db3.tblMovie3 LIMIT 1;' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 25s
+    networks:
+      - cinema_net
+
+  # ------------------------------------------------------------------
+  # DỊCH VỤ WEB: Apache Tomcat 9 + Java 17 (JSP / Servlet)
+  # ------------------------------------------------------------------
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cinema_web
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      # Trong mạng nội bộ Docker (cinema_net), container db luôn lắng nghe trên cổng mặc định 3306
+      DB_PORT: "3306"
+      DB_NAME: cinema_db3
+      DB_USER: root
+      DB_PASSWORD: root
+    ports:
+      - "8080:8080"
+    networks:
+      - cinema_net
+
+volumes:
+  cinema_mysql_data:
+
+networks:
+  cinema_net:
+    driver: bridge

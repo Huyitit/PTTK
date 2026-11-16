@@ -1,0 +1,55 @@
+@startuml image10
+title Biểu đồ giao tiếp module xem thống kê khách hàng theo doanh thu (Communication Diagram - View Customer Statistics)
+
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam roundcorner 5
+
+skinparam object {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    ArrowColor #212529
+}
+
+actor "Manager" as Manager
+boundary "ManagerScreen" as ManagerScreen
+boundary "ReportSelectionScreen" as ReportSelectionScreen
+boundary "CustomerReportByRevenueScreen" as CustomerReportByRevenueScreen
+boundary "CustomerTransactionScreen" as CustomerTransactionScreen
+entity "CustomerStats" as CustomerStats
+entity "Invoice" as Invoice
+
+' Đường nối giữa Actor và ManagerScreen
+Manager -- ManagerScreen : 1: select view report feature >
+
+' Đường nối giữa ManagerScreen và ReportSelectionScreen
+ManagerScreen -- ReportSelectionScreen : 2: call >
+
+' Đường nối giữa Actor và ReportSelectionScreen
+ReportSelectionScreen -- Manager : 3: display >\n4: select report + date <
+
+' Đường nối giữa ReportSelectionScreen và CustomerReportByRevenueScreen
+ReportSelectionScreen -- CustomerReportByRevenueScreen : 5: call >
+
+' Đường nối giữa CustomerReportByRevenueScreen và CustomerStats
+CustomerReportByRevenueScreen -- CustomerStats : 6: call >\n8: return <
+
+' Tự gọi phương thức trên CustomerStats
+CustomerStats -- CustomerStats : 7: getCustomerStat()
+
+' Đường nối giữa CustomerReportByRevenueScreen và Actor
+CustomerReportByRevenueScreen -- Manager : 9: display >\n10: select a customer <
+
+' Đường nối giữa CustomerReportByRevenueScreen và CustomerTransactionScreen
+CustomerReportByRevenueScreen -- CustomerTransactionScreen : 11: call >
+
+' Đường nối giữa CustomerTransactionScreen và Invoice
+CustomerTransactionScreen -- Invoice : 12: call >\n14: return <
+
+' Tự gọi phương thức trên Invoice
+Invoice -- Invoice : 13: getInvoicesOfCustomer()
+
+' Đường nối giữa CustomerTransactionScreen và Actor
+CustomerTransactionScreen -- Manager : 15: display >
+
+@enduml

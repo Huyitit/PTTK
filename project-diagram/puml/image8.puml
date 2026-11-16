@@ -1,0 +1,44 @@
+@startuml image8
+title Biểu đồ giao tiếp module tìm kiếm thông tin phim (Communication Diagram - Search Movie Info)
+
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam roundcorner 5
+
+skinparam object {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    ArrowColor #212529
+}
+
+actor "Customer" as Customer
+boundary "CustomerScreen" as CustomerScreen
+boundary "SearchMovieScreen" as SearchMovieScreen
+boundary "MovieDetailScreen" as MovieDetailScreen
+entity "Movie" as Movie
+
+' Đường nối giữa Actor và CustomerScreen
+Customer -- CustomerScreen : 1: select search movie feature >
+
+' Đường nối giữa CustomerScreen và SearchMovieScreen
+CustomerScreen -- SearchMovieScreen : 2: call >
+
+' Đường nối giữa Actor và SearchMovieScreen
+Customer -- SearchMovieScreen : 3: display <\n4: insert keyword + click search >\n8: display <\n9: select a movie >
+
+' Đường nối giữa SearchMovieScreen và Movie
+SearchMovieScreen -- Movie : 5: call >\n7: return <
+
+' Tự gọi phương thức trên Movie
+Movie -- Movie : 6: getMovies()\n12: getMovieDetail()
+
+' Đường nối giữa SearchMovieScreen và MovieDetailScreen
+SearchMovieScreen -- MovieDetailScreen : 10: call >
+
+' Đường nối giữa MovieDetailScreen và Movie
+MovieDetailScreen -- Movie : 11: call >\n13: return <
+
+' Đường nối giữa MovieDetailScreen và Actor
+MovieDetailScreen -- Customer : 14: display >
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml image15
+title Biểu đồ hoạt động module tìm kiếm thông tin phim (Activity Diagram - Search Movie Info)
+
+skinparam shadowing false
+skinparam defaultTextAlignment center
+skinparam roundcorner 10
+
+skinparam activity {
+    BackgroundColor #64B5F6
+    BorderColor #0D47A1
+    ArrowColor #212529
+    StartColor #0D47A1
+    EndColor #0D47A1
+}
+
+skinparam partition {
+    BackgroundColor #E3F2FD
+    BorderColor #0D47A1
+}
+
+start
+
+partition "Execute in CustomerScreen.jsp" {
+    :Receive information of customer;
+    :Display screen;
+    -> [Click search movie];
+}
+
+partition "Execute in SearchMovieScreen.jsp" {
+    :Receive information of customer;
+    -> [Insert keyword and click search];
+    :Get movie list;
+    :MovieDAO3: getMovies();
+    -> [get information successfully];
+    :Display screen;
+    -> [click a movie];
+}
+
+partition "Execute in MovieDetailScreen.jsp" {
+    :Receive information of customer;
+    -> [get movie detail];
+    :MovieDAO3: getMovieDetail();
+    -> [get movie detail successfully];
+    :Display screen;
+}
+
+stop
+
+@enduml

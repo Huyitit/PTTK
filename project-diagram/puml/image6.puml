@@ -1,0 +1,208 @@
+@startuml image6
+title Biểu đồ lớp phân tích module xem thống kê khách hàng theo doanh thu (Module Analysis Class Diagram - View Customer Statistics)
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam roundcorner 5
+
+skinparam class {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    ArrowColor #212529
+    HeaderBackgroundColor #E9ECEF
+}
+
+' ==================== TẦNG LỚP BIÊN (BOUNDARY CLASSES) ====================
+class ManagerScreen3 <<boundary>> {
+    - subViewStatistics
+}
+
+class ReportSelectionScreen3 <<boundary>> {
+    - inoutReportTypes
+    - inoutStartDate
+    - inoutEndDate
+    - subView
+}
+
+class CustomerReportByRevenueScreen3 <<boundary>> {
+    - outsubCustomerStats
+    - subBack
+}
+
+class CustomerTransactionScreen3 <<boundary>> {
+    - outTransactions
+    - subBack
+}
+
+' Điều hướng giữa các giao diện
+ManagerScreen3 -- ReportSelectionScreen3
+ReportSelectionScreen3 -- CustomerReportByRevenueScreen3
+CustomerReportByRevenueScreen3 -- CustomerTransactionScreen3
+
+' Giao diện gọi thực thể để xử lý nghiệp vụ
+CustomerReportByRevenueScreen3 -- CustomerStats3
+CustomerTransactionScreen3 -- Invoice3
+
+' ==================== TẦNG THỰC THỂ (ENTITY CLASSES) ====================
+
+' ----- NHÓM NGƯỜI DÙNG & TỔ CHỨC -----
+class User3 {
+    - username
+    - password
+    - fullName
+    - email
+    - phone
+}
+
+class Staff3 {
+    - role
+}
+
+class Customer3 {
+    - code
+}
+
+class Manager3 {
+}
+
+class Saler3 {
+}
+
+class CustomerStats3 {
+    - startDate
+    - endDate
+    - totalTransactions
+    - totalRevenue
+    + getCustomerStat()
+}
+
+class MembershipCard3 {
+    - issueDate
+    - points
+}
+
+' Kế thừa nhóm người dùng
+User3 <|-- Staff3
+User3 <|-- Customer3
+Staff3 <|-- Manager3
+Staff3 <|-- Saler3
+Customer3 <|-- CustomerStats3
+
+' Hợp thành / Tụ hợp Thẻ thành viên
+Customer3 *-- MembershipCard3
+
+' ----- NHÓM CƠ SỞ VẬT CHẤT -----
+class Cinema3 {
+    - name
+    - address
+    - phone
+}
+
+class ScreeningRoom3 {
+    - name
+    - capacity
+    - type
+}
+
+class Seat3 {
+    - row
+    - number
+    - type
+}
+
+' Hợp thành cơ sở vật chất
+Cinema3 *-- ScreeningRoom3
+ScreeningRoom3 *-- Seat3
+
+' ----- NHÓM PHIM & NGHỆ THUẬT -----
+class Movie3 {
+    - title
+    - director
+    - duration
+    - releaseDate
+    - ageRestriction
+    - description
+}
+
+class Genre3 {
+    - name
+}
+
+class Actor3 {
+    - name
+}
+
+class MovieGenre3 {
+    - rate
+}
+
+class MovieActor3 {
+    - characterName
+}
+
+class MovieStats3 {
+    - startDate
+    - endDate
+    - totalTickets
+    - totalRevenue
+}
+
+' Kế thừa thống kê phim
+Movie3 <|-- MovieStats3
+
+' Association Class: Movie và Genre liên kết, treo MovieGenre
+Movie3 -- Genre3
+(Movie3, Genre3) .. MovieGenre3
+
+' Association Class: Movie và Actor liên kết, treo MovieActor
+Movie3 -- Actor3
+(Movie3, Actor3) .. MovieActor3
+
+' ----- NHÓM SUẤT CHIẾU, VÉ & HÓA ĐƠN -----
+class Showtime3 {
+    - showDate
+    - startTime
+    - endTime
+    - format
+    - basePrice
+}
+
+class Ticket3 {
+    - price
+    - issueTime
+    - status
+    - type
+}
+
+class Invoice3 {
+    - createdDate
+    - totalAmount
+    - paymentMethod
+    + getInvoicesOfCustomer()
+}
+
+class RevenueStats3 {
+    - startDate
+    - endDate
+    - totalTickets
+    - totalRevenue
+}
+
+' Association Class: ScreeningRoom và Movie liên kết, treo Showtime
+ScreeningRoom3 -- Movie3
+(ScreeningRoom3, Movie3) .. Showtime3
+
+' Association Class: Showtime và Seat liên kết, treo Ticket
+Showtime3 -- Seat3
+(Showtime3, Seat3) .. Ticket3
+
+' Hóa đơn thanh toán tập hợp Ticket
+Invoice3 o-- Ticket3
+
+' Các liên kết association thuần túy (không có mũi tên)
+Customer3 -- Invoice3
+Saler3 -- Invoice3
+Invoice3 -- RevenueStats3
+
+@enduml

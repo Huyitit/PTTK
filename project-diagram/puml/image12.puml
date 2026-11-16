@@ -1,0 +1,194 @@
+@startuml image12
+title Sơ đồ thiết kế cơ sở dữ liệu quan hệ (Relational Database Schema Diagram)
+
+skinparam linetype ortho
+skinparam roundcorner 5
+skinparam shadowing false
+
+skinparam entity {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    HeaderBackgroundColor #E9ECEF
+    ArrowColor #212529
+}
+
+' ==========================================
+' 1. NHÓM NGƯỜI DÙNG & PHÂN QUYỀN
+' ==========================================
+entity "tblUser3" as tblUser3 {
+    * id : int(10) <<PK>>
+    --
+    * username : varchar(255)
+    * password : varchar(255)
+    * fullName : varchar(255)
+    email : varchar(255)
+    phone : varchar(255)
+}
+
+entity "tblStaff3" as tblStaff3 {
+    * tblUserId : int(10) <<PK, FK>>
+    --
+    * role : varchar(255)
+}
+
+entity "tblManager3" as tblManager3 {
+    * tblStaffId : int(10) <<PK, FK>>
+    --
+}
+
+entity "tblSaler3" as tblSaler3 {
+    * tblStaffId : int(10) <<PK, FK>>
+    --
+}
+
+entity "tblCustomer3" as tblCustomer3 {
+    * tblUserId : int(10) <<PK, FK>>
+    --
+    * code : varchar(255)
+}
+
+entity "tblMembershipCard3" as tblMembershipCard3 {
+    * id : int(10) <<PK>>
+    --
+    * issueDate : date
+    * points : int(10)
+    * tblCustomer3UserId : int(10) <<FK, UNIQUE>>
+}
+
+' Quan hệ kế thừa 1-1 nhóm người dùng
+tblUser3 ||--o| tblStaff3 : "kế thừa"
+tblStaff3 ||--o| tblManager3 : "kế thừa"
+tblStaff3 ||--o| tblSaler3 : "kế thừa"
+tblUser3 ||--o| tblCustomer3 : "kế thừa"
+tblCustomer3 ||--o| tblMembershipCard3 : "sở hữu 1-1"
+
+' ==========================================
+' 2. NHÓM CƠ SỞ VẬT CHẤT
+' ==========================================
+entity "tblCinema3" as tblCinema3 {
+    * id : int(10) <<PK>>
+    --
+    * name : varchar(255)
+    * address : varchar(255)
+    phone : varchar(255)
+}
+
+entity "tblScreeningRoom3" as tblScreeningRoom3 {
+    * id : int(10) <<PK>>
+    --
+    * name : varchar(255)
+    * capacity : int(10)
+    type : varchar(255)
+    * tblCinema3Id : int(10) <<FK>>
+}
+
+entity "tblSeat3" as tblSeat3 {
+    * id : int(10) <<PK>>
+    --
+    * row : varchar(255)
+    * number : int(10)
+    type : varchar(255)
+    * tblScreeningRoom3Id : int(10) <<FK>>
+}
+
+' Quan hệ 1-n cơ sở vật chất
+tblCinema3 ||--|{ tblScreeningRoom3
+tblScreeningRoom3 ||--|{ tblSeat3
+
+' ==========================================
+' 3. NHÓM PHIM & NGHỆ THUẬT
+' ==========================================
+entity "tblMovie3" as tblMovie3 {
+    * id : int(10) <<PK>>
+    --
+    * title : varchar(255)
+    director : varchar(255)
+    * duration : int(10)
+    releaseDate : date
+    ageRestriction : int(10)
+    description : varchar(500)
+}
+
+entity "tblGenre3" as tblGenre3 {
+    * id : int(10) <<PK>>
+    --
+    * name : varchar(255)
+}
+
+entity "tblActor3" as tblActor3 {
+    * id : int(10) <<PK>>
+    --
+    * name : varchar(255)
+}
+
+entity "tblMovieGenre3" as tblMovieGenre3 {
+    * id : int(10) <<PK>>
+    --
+    rate : float(10)
+    * tblMovie3Id : int(10) <<FK>>
+    * tblGenre3Id : int(10) <<FK>>
+}
+
+entity "tblMovieActor3" as tblMovieActor3 {
+    * id : int(10) <<PK>>
+    --
+    characterName : varchar(255)
+    * tblMovie3Id : int(10) <<FK>>
+    * tblActor3Id : int(10) <<FK>>
+}
+
+' Quan hệ phân rã thể loại & diễn viên
+tblMovie3 ||--|{ tblMovieGenre3
+tblGenre3 ||--|{ tblMovieGenre3
+tblMovie3 ||--|{ tblMovieActor3
+tblActor3 ||--|{ tblMovieActor3
+
+' ==========================================
+' 4. NHÓM SUẤT CHIẾU, HÓA ĐƠN & VÉ
+' ==========================================
+entity "tblShowtime3" as tblShowtime3 {
+    * id : int(10) <<PK>>
+    --
+    * showDate : date
+    * startTime : varchar(10)
+    * endTime : varchar(10)
+    format : varchar(255)
+    * basePrice : float(10)
+    * tblMovie3Id : int(10) <<FK>>
+    * tblScreeningRoom3Id : int(10) <<FK>>
+}
+
+entity "tblInvoice3" as tblInvoice3 {
+    * id : int(10) <<PK>>
+    --
+    * createdDate : datetime
+    * totalAmount : float(10)
+    paymentMethod : varchar(255)
+    * tblCustomer3UserId : int(10) <<FK>>
+    tblSaler3StaffId : int(10) <<FK>>
+}
+
+entity "tblTicket3" as tblTicket3 {
+    * id : int(10) <<PK>>
+    --
+    * price : float(10)
+    * issueTime : datetime
+    status : varchar(255)
+    type : varchar(255)
+    * tblShowtime3Id : int(10) <<FK>>
+    * tblSeat3Id : int(10) <<FK>>
+    * tblInvoice3Id : int(10) <<FK>>
+}
+
+' Quan hệ suất chiếu
+tblMovie3 ||--|{ tblShowtime3
+tblScreeningRoom3 ||--|{ tblShowtime3
+
+' Quan hệ giao dịch & vé
+tblCustomer3 ||--o{ tblInvoice3
+tblSaler3 ||--o{ tblInvoice3
+tblShowtime3 ||--|{ tblTicket3
+tblSeat3 ||--|{ tblTicket3
+tblInvoice3 ||--|{ tblTicket3
+
+@enduml

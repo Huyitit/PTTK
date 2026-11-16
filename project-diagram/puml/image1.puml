@@ -1,0 +1,87 @@
+@startuml image1
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+left to right direction
+
+skinparam usecase {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    ArrowColor #212529
+}
+
+actor "User 3\n(Người dùng)" as User
+actor "Customer 3\n(Khách hàng)" as Customer
+actor "Staff 3\n(Nhân viên)" as Staff
+actor "Saler 3\n(Nhân viên bán vé)" as Saler
+actor "Manager 3\n(Nhân viên quản lý)" as Manager
+
+' Kế thừa Actor
+Customer -up-|> User
+Staff -up-|> User
+Saler -up-|> Staff
+Manager -up-|> Staff
+
+rectangle "Cinema" as System {
+    ' Nhóm chung của User
+    usecase "Login 3" as UC_Login
+    usecase "Logout 3" as UC_Logout
+    usecase "Update Profile 3" as UC_UpdateProfile
+    
+    ' Nhóm Đăng ký thành viên
+    usecase "Register Membership 3" as UC_RegMember
+    usecase "Register Membership Online 3" as UC_RegMemberOnline
+    usecase "Issue Membership At Counter 3" as UC_IssueMemberCounter
+    
+    ' Nhóm Tìm kiếm phim
+    usecase "Search Movie 3" as UC_SearchMovie
+    usecase "Search Movie For Customer 3" as UC_SearchMovieCust
+    usecase "Search Movie For Saler 3" as UC_SearchMovieSaler
+    
+    usecase "View Movie Detail 3" as UC_ViewMovieDetail
+    usecase "View Showtimes 3" as UC_ViewShowtimes
+    
+    ' Nhóm Đặt / Bán vé
+    usecase "Book Ticket 3" as UC_BookTicket
+    usecase "Book Ticket Online 3" as UC_BookTicketOnline
+    usecase "Sell Ticket At Counter 3" as UC_SellTicketCounter
+    
+    ' Nhóm Quản trị của Manager
+    usecase "Manage Screening Rooms 3" as UC_ManageRooms
+    usecase "Manage Movies 3" as UC_ManageMovies
+    usecase "Schedule Showtimes 3" as UC_ScheduleShowtimes
+    usecase "View Statistics 3" as UC_ViewStats
+}
+
+' Quan hệ kế thừa giữa các Use Case (Mịn hóa theo Giáo trình)
+UC_RegMemberOnline -up-|> UC_RegMember
+UC_IssueMemberCounter -up-|> UC_RegMember
+
+UC_SearchMovieCust -up-|> UC_SearchMovie
+UC_SearchMovieSaler -up-|> UC_SearchMovie
+
+UC_BookTicketOnline -up-|> UC_BookTicket
+UC_SellTicketCounter -up-|> UC_BookTicket
+
+' Kết nối quan hệ association (đường nối liền --)
+User -- UC_Login
+User -- UC_Logout
+User -- UC_UpdateProfile
+
+Customer -- UC_RegMemberOnline
+Customer -- UC_SearchMovieCust
+Customer -- UC_ViewMovieDetail
+Customer -- UC_ViewShowtimes
+Customer -- UC_BookTicketOnline
+Customer -- UC_SellTicketCounter
+Customer -- UC_IssueMemberCounter
+
+Saler -- UC_SearchMovieSaler
+Saler -- UC_SellTicketCounter
+Saler -- UC_IssueMemberCounter
+
+Manager -- UC_ManageRooms
+Manager -- UC_ManageMovies
+Manager -- UC_ScheduleShowtimes
+Manager -- UC_ViewStats
+
+@enduml

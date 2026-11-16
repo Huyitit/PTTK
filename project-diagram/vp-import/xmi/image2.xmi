@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmi:XMI xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:version="2.1">
+  <uml:Model xmi:type="uml:Model" xmi:id="model_Cinema" name="Cinema">
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_User" name="User 3"/>
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_Customer" name="Customer 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_actor_Customer_actor_User" general="actor_User"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_Login" name="Login 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_SearchMovie" name="Search Movie 3" isAbstract="true"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_SearchCust" name="Search Movie For Customer 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_SearchCust_uc_SearchMovie" general="uc_SearchMovie"/>
+      <include xmi:type="uml:Include" xmi:id="inc_SearchCust_Login" addition="uc_Login"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ViewDetail" name="View Movie Detail 3">
+      <extend xmi:type="uml:Extend" xmi:id="ext_ViewDetail_SearchCust" extendedCase="uc_SearchCust"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_1_actor_User_uc_Login" name="">
+      <memberEnd xmi:idref="end_assoc_1_actor_User_uc_Login_actor"/>
+      <memberEnd xmi:idref="end_assoc_1_actor_User_uc_Login_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_1_actor_User_uc_Login_actor" type="actor_User" association="assoc_1_actor_User_uc_Login"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_1_actor_User_uc_Login_uc" type="uc_Login" association="assoc_1_actor_User_uc_Login"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_2_actor_Customer_uc_SearchCust" name="">
+      <memberEnd xmi:idref="end_assoc_2_actor_Customer_uc_SearchCust_actor"/>
+      <memberEnd xmi:idref="end_assoc_2_actor_Customer_uc_SearchCust_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_2_actor_Customer_uc_SearchCust_actor" type="actor_Customer" association="assoc_2_actor_Customer_uc_SearchCust"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_2_actor_Customer_uc_SearchCust_uc" type="uc_SearchCust" association="assoc_2_actor_Customer_uc_SearchCust"/>
+    </packagedElement>
+  </uml:Model>
+</xmi:XMI>

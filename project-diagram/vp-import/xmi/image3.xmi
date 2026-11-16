@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmi:XMI xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:version="2.1">
+  <uml:Model xmi:type="uml:Model" xmi:id="model_Cinema" name="Cinema">
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_User" name="User 3"/>
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_Staff" name="Staff 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_actor_Staff_actor_User" general="actor_User"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="actor_Manager" name="Manager 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_actor_Manager_actor_Staff" general="actor_Staff"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_Login" name="Login 3"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ViewStats" name="View Statistics 3" isAbstract="true"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ViewCustStats" name="View Customer Statistics 3">
+      <generalization xmi:type="uml:Generalization" xmi:id="gen_uc_ViewCustStats_uc_ViewStats" general="uc_ViewStats"/>
+      <include xmi:type="uml:Include" xmi:id="inc_ViewCustStats_Login" addition="uc_Login"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="uc_ViewCustTrans" name="View Customer Transactions 3">
+      <extend xmi:type="uml:Extend" xmi:id="ext_ViewCustTrans_ViewCustStats" extendedCase="uc_ViewCustStats"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_1_actor_User_uc_Login" name="">
+      <memberEnd xmi:idref="end_assoc_1_actor_User_uc_Login_actor"/>
+      <memberEnd xmi:idref="end_assoc_1_actor_User_uc_Login_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_1_actor_User_uc_Login_actor" type="actor_User" association="assoc_1_actor_User_uc_Login"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_1_actor_User_uc_Login_uc" type="uc_Login" association="assoc_1_actor_User_uc_Login"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="assoc_2_actor_Manager_uc_ViewCustStats" name="">
+      <memberEnd xmi:idref="end_assoc_2_actor_Manager_uc_ViewCustStats_actor"/>
+      <memberEnd xmi:idref="end_assoc_2_actor_Manager_uc_ViewCustStats_uc"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_2_actor_Manager_uc_ViewCustStats_actor" type="actor_Manager" association="assoc_2_actor_Manager_uc_ViewCustStats"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="end_assoc_2_actor_Manager_uc_ViewCustStats_uc" type="uc_ViewCustStats" association="assoc_2_actor_Manager_uc_ViewCustStats"/>
+    </packagedElement>
+  </uml:Model>
+</xmi:XMI>

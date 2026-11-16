@@ -1,0 +1,69 @@
+@startuml image20
+title Biểu đồ triển khai hệ thống (Deployment Diagram - Cinema Management System)
+
+skinparam shadowing false
+skinparam roundcorner 5
+
+skinparam node {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    FontColor #0D6EFD
+    FontSize 13
+    FontStyle bold
+}
+
+skinparam artifact {
+    BackgroundColor #FFFFFF
+    BorderColor #198754
+    FontColor #198754
+    FontSize 11
+}
+
+skinparam database {
+    BackgroundColor #FFF3CD
+    BorderColor #FFC107
+    FontColor #664D03
+    FontSize 12
+    FontStyle bold
+}
+
+skinparam arrow {
+    Color #212529
+    FontColor #212529
+    FontSize 11
+}
+
+' ====================================================================
+' 1. NÚT MÁY KHÁCH (CLIENT NODE)
+' ====================================================================
+node "Client Node (PC / Workstation)" <<device>> as ClientNode {
+    node "Web Browser (Firefox)" <<executionEnvironment>> as Browser {
+        artifact "Web Interface (HTML / CSS / JS)" as WebClient
+    }
+}
+
+' ====================================================================
+' 2. NÚT MÁY CHỦ HỆ THỐNG (APPLICATION & DATABASE SERVER DEVICE)
+' ====================================================================
+node "Server (Linux Ubuntu Server)" <<device>> as ServerDevice {
+    
+    node "Apache Tomcat Server 9.x/10.x" <<executionEnvironment>> as Tomcat {
+        node "JRE 11+ (Java Runtime Environment)" <<executionEnvironment>> as JRE {
+            artifact "cinema_system.war" as AppWar
+            artifact "mysql-connector-java.jar\n(JDBC Driver 8.0)" as JDBCDriver
+        }
+    }
+
+    node "MySQL 8.0 DBMS" <<executionEnvironment>> as MySQLServer {
+        database "cinema_db3" <<database>> as CinemaDB
+    }
+
+    Tomcat -- MySQLServer : "TCP/IP (localhost:3306)\n[Local JDBC Connection]"
+}
+
+' ====================================================================
+' 3. KẾT NỐI MẠNG GIỮA CLIENT VÀ SERVER (NETWORK PROTOCOL)
+' ====================================================================
+ClientNode -- ServerDevice : "HTTP (Port 80)\n[Internet / LAN]"
+
+@enduml

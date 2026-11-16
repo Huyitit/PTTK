@@ -1,0 +1,255 @@
+@startuml image13
+title Biểu đồ lớp thiết kế tĩnh module tìm kiếm thông tin phim (Module Static Design Class Diagram - Search Movie Info)
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam roundcorner 5
+
+skinparam class {
+    BackgroundColor #F8F9FA
+    BorderColor #0D6EFD
+    ArrowColor #212529
+    HeaderBackgroundColor #E9ECEF
+}
+
+' ====================================================================
+' 1. TẦNG GIAO DIỆN (VIEW CLASSES / JSP)
+' ====================================================================
+class "CustomerScreen.jsp" as CustomerScreen {
+    - searchMovie: link
+    - cus: Customer3
+}
+
+class "SearchMovieScreen.jsp" as SearchMovieScreen {
+    - keyword: Input
+    - search: button
+    - listMovies: Movie3[]
+    - moviesTable: Table
+    - selectMovie: link
+}
+
+class "MovieDetailScreen.jsp" as MovieDetailScreen {
+    - movie: Movie3
+    - infoTable: Table
+    - back: button
+}
+
+' Điều hướng giữa các trang giao diện JSP
+CustomerScreen -- SearchMovieScreen
+SearchMovieScreen -- MovieDetailScreen
+ SearchMovieScreen -- SearchMovieScreen
+' ====================================================================
+' 2. TẦNG TRUY CẬP DỮ LIỆU (DATA ACCESS OBJECTS - DAO)
+' ====================================================================
+class DAO3 {
+    + con: Connection
+    + DAO3()
+}
+
+class MovieDAO3 {
+    + MovieDAO3()
+    + getMovies(name: String): Movie3[]
+    + getMovieDetail(movie: Movie3): Movie3
+}
+
+' Kế thừa lớp cơ sở DAO
+DAO3 <|-- MovieDAO3
+
+' Tầng giao diện gọi tầng DAO
+SearchMovieScreen -- MovieDAO3 
+MovieDetailScreen -- MovieDAO3 
+
+' DAO thao tác, đóng gói và trả về thực thể Movie3
+MovieDAO3 -- Movie3
+
+' ====================================================================
+' 3. TẦNG THỰC THỂ (DESIGN ENTITY CLASSES - PHÙ HỢP MỤC 3.1)
+' ====================================================================
+
+' ----- NHÓM NGƯỜI DÙNG & TỔ CHỨC -----
+class User3 {
+    - id: int
+    - username: String
+    - password: String
+    - fullName: String
+    - email: String
+    - phone: String
+}
+
+class Staff3 {
+    - role: String
+}
+
+class Customer3 {
+    - code: String
+    - card: MembershipCard3
+}
+
+class Manager3 {
+}
+
+class Saler3 {
+}
+
+class CustomerStats3 {
+    - startDate: Date
+    - endDate: Date
+    - totalTransactions: int
+    - totalRevenue: float
+}
+
+class MembershipCard3 {
+    - id: int
+    - issueDate: Date
+    - points: int
+}
+
+' Kế thừa nhóm người dùng
+User3 <|-- Staff3
+User3 <|-- Customer3
+Staff3 <|-- Manager3
+Staff3 <|-- Saler3
+Customer3 <|-- CustomerStats3
+
+' Hợp thành Thẻ thành viên
+Customer3 *-- MembershipCard3
+
+' ----- NHÓM CƠ SỞ VẬT CHẤT -----
+class Cinema3 {
+    - id: int
+    - name: String
+    - address: String
+    - phone: String
+    - rooms: ScreeningRoom3[]
+}
+
+class ScreeningRoom3 {
+    - id: int
+    - name: String
+    - capacity: int
+    - type: String
+    - seats: Seat3[]
+}
+
+class Seat3 {
+    - id: int
+    - row: String
+    - number: int
+    - type: String
+}
+
+' Hợp thành cơ sở vật chất (một chiều)
+Cinema3 *-- ScreeningRoom3
+ScreeningRoom3 *-- Seat3
+
+' ----- NHÓM PHIM & NGHỆ THUẬT -----
+class Movie3 {
+    - id: int
+    - title: String
+    - director: String
+    - duration: int
+    - releaseDate: Date
+    - ageRestriction: int
+    - description: String
+    - genres: MovieGenre3[]
+    - actors: MovieActor3[]
+    - showtimes: Showtime3[]
+}
+
+class Genre3 {
+    - id: int
+    - name: String
+}
+
+class Actor3 {
+    - id: int
+    - name: String
+}
+
+class MovieGenre3 {
+    - id: int
+    - rate: float
+    - genre: Genre3
+}
+
+class MovieActor3 {
+    - id: int
+    - characterName: String
+    - actor: Actor3
+}
+
+class MovieStats3 {
+    - startDate: Date
+    - endDate: Date
+    - totalTickets: int
+    - totalRevenue: float
+}
+
+' Kế thừa thống kê phim
+Movie3 <|-- MovieStats3
+
+' Tụ hợp Thể loại và Diễn viên của Phim
+Movie3 o-- MovieGenre3
+MovieGenre3 o-- Genre3
+
+Movie3 o-- MovieActor3
+MovieActor3 o-- Actor3
+
+' ----- NHÓM SUẤT CHIẾU, VÉ & HÓA ĐƠN -----
+class Showtime3 {
+    - id: int
+    - showDate: Date
+    - startTime: String
+    - endTime: String
+    - format: String
+    - basePrice: float
+    - room: ScreeningRoom3
+}
+
+class Ticket3 {
+    - id: int
+    - price: float
+    - issueTime: Date
+    - status: String
+    - type: String
+    - showtime: Showtime3
+    - seat: Seat3
+}
+
+class Invoice3 {
+    - id: int
+    - createdDate: Date
+    - totalAmount: float
+    - paymentMethod: String
+    - customer: Customer3
+    - saler: Saler3
+    - tickets: Ticket3[]
+}
+
+class RevenueStats3 {
+    - id: int
+    - startDate: Date
+    - endDate: Date
+    - totalTickets: int
+    - totalRevenue: float
+    - invoices: Invoice3[]
+}
+
+' Tụ hợp Suất chiếu và Phòng chiếu
+Movie3 o-- Showtime3
+Showtime3 o-- ScreeningRoom3
+
+' Tụ hợp Vé xem phim
+Ticket3 o-- Showtime3
+Ticket3 o-- Seat3
+
+' Tụ hợp Hóa đơn thanh toán
+Invoice3 o-- Customer3
+Invoice3 o-- Saler3
+Invoice3 o-- Ticket3
+
+' Tụ hợp Thống kê doanh thu
+RevenueStats3 o-- Invoice3
+
+@enduml

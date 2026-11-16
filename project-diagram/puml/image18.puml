@@ -1,0 +1,96 @@
+@startuml image18
+title Biểu đồ tuần tự v3 module xem thống kê khách hàng theo doanh thu (Sequence Diagram v3 - View Customer Statistics)
+
+skinparam shadowing false
+skinparam roundcorner 5
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+
+skinparam sequence {
+    ArrowColor #212529
+    ArrowThickness 1.5
+    ActorBorderColor #0D47A1
+    ActorBackgroundColor #E3F2FD
+    ParticipantBorderColor #0D47A1
+    ParticipantBackgroundColor #F8F9FA
+    LifeLineBorderColor #0D47A1
+    LifeLineBackgroundColor #BBDEFB
+}
+
+actor "Manager" as mng
+boundary "ManagerScreen.jsp" as ms
+boundary "ReportScreen.jsp" as rs
+boundary "CustomerTransactionScreen.jsp" as cts
+control "CustomerStatDAO3" as csdao
+control "InvoiceDAO3" as idao
+entity "CustomerStats3" as cs
+entity "Invoice3" as inv
+entity "Ticket3" as t
+
+== Giai đoạn 1: Lọc và hiển thị danh sách thống kê khách hàng theo doanh thu ==
+
+mng -> ms: 1: Chọn chức năng "Xem thống kê khách hàng theo doanh thu"
+activate ms
+
+ms -> rs: 2: gọi trang
+activate rs
+
+rs --> mng: 3: hiển thị giao diện báo cáo thống kê (loại TK, startDate, endDate, nút "Xem thống kê")
+
+mng -> rs: 4: chọn loại thống kê, nhập khoảng thời gian (startDate, endDate) và click "Xem thống kê"
+
+rs -> csdao: 5: yêu cầu lấy danh sách thống kê khách hàng theo doanh thu
+activate csdao
+
+csdao -> csdao: 6: getCustomerStat(startDate: Date, endDate: Date)
+
+csdao -> cs: 7: kết nối CSDL, tổng hợp doanh thu từng khách hàng và gọi đóng gói dữ liệu
+activate cs
+
+cs -> cs: 8: CustomerStats3() [đóng gói]
+
+cs --> csdao: 9: trả kết quả đối tượng CustomerStats3 đã đóng gói
+deactivate cs
+
+csdao --> rs: 10: trả kết quả danh sách mảng đối tượng CustomerStats3[]
+deactivate csdao
+
+rs --> mng: 11: hiển thị bảng danh sách thống kê khách hàng (sắp xếp theo doanh thu giảm dần)
+
+== Giai đoạn 2: Xem chi tiết các giao dịch / hóa đơn của khách hàng ==
+
+mng -> rs: 12: click nút "Xem chi tiết" của một khách hàng cụ thể trên bảng thống kê
+
+rs -> cts: 13: gọi trang (truyền mã khách hàng customerId, startDate, endDate)
+activate cts
+
+cts -> idao: 14: yêu cầu lấy danh sách chi tiết các hóa đơn của khách hàng
+activate idao
+
+idao -> idao: 15: getInvoicesOfCustomer(customerId: int, startDate: Date, endDate: Date)
+
+idao -> inv: 16: kết nối CSDL, truy vấn các hóa đơn và gọi đóng gói dữ liệu
+activate inv
+
+inv -> inv: 17: Invoice3() [đóng gói]
+
+inv -> t: 18: gọi đóng gói danh sách các vé thuộc từng hóa đơn
+activate t
+
+t -> t: 19: Ticket3() [đóng gói]
+
+t --> inv: 20: trả kết quả danh sách vé
+deactivate t
+
+inv --> idao: 21: trả về đối tượng Invoice3 hoàn chỉnh (chứa thông tin hóa đơn và mảng Ticket3[])
+deactivate inv
+
+idao --> cts: 22: trả kết quả danh sách mảng đối tượng Invoice3[]
+deactivate idao
+
+cts --> mng: 23: hiển thị danh sách chi tiết các giao dịch/hóa đơn của khách hàng kèm tổng doanh thu
+deactivate cts
+deactivate rs
+deactivate ms
+
+@enduml
